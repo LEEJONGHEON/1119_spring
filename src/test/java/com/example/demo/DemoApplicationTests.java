@@ -73,9 +73,10 @@ class DemoApplicationTests {
 		Todo todo = new Todo(id,userid,title,done);
 
 	    // when : 테스트 실제 상황
-		repository.toDoCreate(todo);
+		boolean flag = repository.toDoCreate(todo);
 
 	    // then : 테스트 결과물 단언
+		assertTrue(flag);
 		assertNotNull(repository.findOne(id));
 		assertEquals(4,repository.findAll().size());
 
