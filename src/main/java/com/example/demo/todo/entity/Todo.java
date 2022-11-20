@@ -4,6 +4,7 @@ import lombok.*;
 
 // 역활 : 하나의 할일 데이터의 집합 객체
 // lombok 라이브러리가 자동으로 해당기능들 구현해줌
+// Entity Todo : DB에 저장할 데이터 상세
 @Setter @Getter @ToString
 @NoArgsConstructor
 @AllArgsConstructor
