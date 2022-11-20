@@ -8,9 +8,8 @@ import com.example.demo.todo.service.TodoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +27,30 @@ public class TodoApiController {
 
     // 목록 전체 조회 GET
     @GetMapping
-    public FindAllDTO getTodoList() {
+    public ResponseEntity<?> getTodoList() {
         log.info("/api/todos GET request");
-        return service.findAllResult();
+        return ResponseEntity.ok().body(service.findAllResult());
     }
 
-    //
-}
+    // 할 일 목록 등록 요청
+    // 생성후 생성 된 뒤 갱신된 목록 반환
+    @PostMapping
+    // error 상황에서는 200 나가면안됨 ResponseEntity를 반환값(상태값 반환을 위한)으로 리턴
+    public ResponseEntity<?> CreateTodo(@RequestBody Todo newTodo) {
+        newTodo.setUserId("noname");
+        log.info("/api/todos POST request - {}",newTodo);
+
+        try {
+            FindAllDTO dto = service.createServ(newTodo);
+
+            if (dto == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().body(dto);
+        } catch(RuntimeException e) { // 에러 상황
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    }

@@ -33,5 +33,15 @@ public class TodoService {
         return new FindAllDTO(todoList); // DB에서 가져온 데이터 로직 결과값 반환
     }
 
+    public FindAllDTO createServ(final Todo newTodo) {
+        if (newTodo == null) {
+            log.warn("입력 값이 없습니다.");
+            throw new RuntimeException("에러");
+        }
 
+        boolean flag = repository.toDoCreate(newTodo);
+        if (flag) log.info("새로운 할일 [id: {}]이 저장되었습니다.", newTodo.getId());
+
+        return flag ? findAllResult() : null;
+    }
 }

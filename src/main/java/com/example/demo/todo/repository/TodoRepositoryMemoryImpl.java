@@ -15,9 +15,11 @@ public class TodoRepositoryMemoryImpl implements TodoRepository {
     private static final Map<Long, Todo> todoMap = new HashMap<>(); // static 동일 객체하나공유
 
     static {
-        todoMap.put(1L, new Todo(1L, "테스트1", "테스트 내용1", false));
-        todoMap.put(2L, new Todo(2L, "테스트2", "테스트 내용2", false));
-        todoMap.put(3L, new Todo(3L, "테스트3", "테스트 내용3", true));
+        todoMap.put(1L, new Todo("테스트 내용1"));
+        todoMap.put(2L, new Todo("테스트 내용2"));
+        todoMap.put(3L, new Todo("테스트 내용3"));
+        todoMap.put(4L, new Todo("테스트 내용4"));
+        todoMap.put(5L, new Todo("테스트 내용5"));
     }
 
     @Override
