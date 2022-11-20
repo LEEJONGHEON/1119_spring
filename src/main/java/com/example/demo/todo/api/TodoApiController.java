@@ -50,7 +50,35 @@ public class TodoApiController {
         } catch(RuntimeException e) { // 에러 상황
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    // 할 일 개별 조회 요청
+    // url :/api/todos/3 => 3번 할 일만 조회해서 클라이언트에게 전달
+    @GetMapping("{id}")
+    public ResponseEntity<?> getOne(@PathVariable Long id) {
+        try {
+            Todo todo = service.findService(id);
+            if (todo==null) return ResponseEntity.notFound().build(); //todo찾을수없을때
+            return ResponseEntity.ok().body(todo);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("검색 실패");
+        }
 
     }
 
+    // 할 일 삭제 요청
+    // URl : /api/todos/3 : delete => 3 번 할 일 삭제후 삭제 된 이후에 갱신된 목록 리턴
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteOne(@PathVariable Long id) {
+        try {
+            boolean flag = service.deleteService(id);
+            if (flag == false) { // 삭제할 id를 찾을수 없을 때
+                ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok().body(service.findAllResult());
+        } catch(Exception e) { // 삭제도중 service 동작 실패
+            return ResponseEntity.badRequest().body("삭제 실패");
+        }
+
+    }
     }

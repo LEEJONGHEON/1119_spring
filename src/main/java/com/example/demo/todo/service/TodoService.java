@@ -44,4 +44,13 @@ public class TodoService {
 
         return flag ? findAllResult() : null;
     }
+
+    public Todo findService(Long id) {
+        return repository.findOne(id);
+    }
+
+    public boolean deleteService(Long id) {
+        return repository.delete(id);
+    }
+
 }
