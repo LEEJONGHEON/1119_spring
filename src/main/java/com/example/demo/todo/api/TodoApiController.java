@@ -70,12 +70,10 @@ public class TodoApiController {
     // URl : /api/todos/3 : delete => 3 번 할 일 삭제후 삭제 된 이후에 갱신된 목록 리턴
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteOne(@PathVariable Long id) {
+        // ctrl alt t : 다음으로 둘러싸기
         try {
-            boolean flag = service.deleteService(id);
-            if (flag == false) { // 삭제할 id를 찾을수 없을 때
-                ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok().body(service.findAllResult());
+            FindAllDTO dto = service.deleteService(id);
+            return ResponseEntity.ok().body(dto);
         } catch(Exception e) { // 삭제도중 service 동작 실패
             return ResponseEntity.badRequest().body("삭제 실패");
         }

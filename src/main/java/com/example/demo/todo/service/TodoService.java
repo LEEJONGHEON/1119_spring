@@ -49,8 +49,13 @@ public class TodoService {
         return repository.findOne(id);
     }
 
-    public boolean deleteService(Long id) {
-        return repository.delete(id);
+    public FindAllDTO deleteService(Long id) {
+        boolean flag = repository.delete(id);
+        if (!flag) {
+            log.warn("delete fail not found id [{}]",id);
+            throw new RuntimeException("delete fail");
+        }
+        return this.findAllResult();
     }
 
 }
