@@ -18,6 +18,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("/api/todos")
 @RequiredArgsConstructor
+@CrossOrigin(origins="*", allowedHeaders = "*")
 public class TodoApiController {
 
     private final TodoService service;
